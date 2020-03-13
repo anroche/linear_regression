@@ -5,7 +5,6 @@ import re
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 
 def average(lst): 
     return sum(lst) / len(lst) 
@@ -37,7 +36,7 @@ def open_data():
 					print("")
 		return (km, price)
 	except:
-		print("Data set invalid")
+		print("Data invalid")
 		exit()
 
 def estimate_coef(km, price):
@@ -68,8 +67,15 @@ def print_regression(km, price, theta0, theta1):
 	axes.grid()
 	plt.ylabel("Prices")
 	plt.xlabel("kilometres")
-	plt.scatter(km, price, color = "r", marker = "x")
+	plt.xlim()
+
+	x = np.linspace(0,max(km) * 1.5,100)
+	y = theta1*x+theta0	
+	plt.plot(km, price, "xb",  label='Data set') 
+	plt.plot(x, y, '-r', label='Linear regression')
+	plt.legend(loc='upper left')
 	plt.show()
+
 
 def main(): 
 
@@ -80,10 +86,11 @@ def main():
 	
 	theta0, theta1 = estimate_coef(km, price)
 	print_regression(km, price, theta0, theta1)
+	#test()
 	save_theta(theta0, theta1)
 	
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main() 
 
 
